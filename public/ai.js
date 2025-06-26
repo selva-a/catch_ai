@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 1. CONFIGURATION
   // ======================
   const CONFIG = {
-    API_KEY: "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",
+    API_KEY: "my_api_key",
     API_URL: "https://openrouter.ai/api/v1/chat/completions",
     MODEL: "openai/gpt-3.5-turbo",
     MAX_TOKENS: 1000,
