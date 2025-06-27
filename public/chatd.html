@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat | Selva</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar - History -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <button id="newChatBtn" class="btn-new-chat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    New Chat
+                </button>
+            </div>
+            <div class="history-list">
+                <h3>Chat History</h3>
+                <div id="sessionList" class="session-items">
+                    <!-- Sessions will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-content">
+            <div class="chat-header">
+                <h1>AI Assistant</h1>
+                <div class="header-actions">
+                    <!-- Services Dropdown -->
+                    <div class="services-dropdown">
+                        <button id="servicesBtn" class="btn-services">
+                            <span id="currentServiceIcon">💬</span>
+                            <span id="currentServiceName">Normal Chat</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+                        <div id="servicesDropdown" class="dropdown-content">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Service Indicator -->
+                    <div id="serviceIndicator" class="service-indicator">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="btn-theme-toggle">🌓</button>
+                </div>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div id="chatBox" class="chat-messages">
+                <!-- Messages will appear here -->
+            </div>
+
+            <!-- Typing Indicator -->
+            <div id="typingIndicator" class="typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span>AI is thinking...</span>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Tamil">Tamil</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Chinese">Chinese</option>
+                    </select>
+                </div>
+                <div class="input-area">
+                    <textarea id="userInput" placeholder="Type your message here..." rows="1"></textarea>
+                    <div class="input-buttons">
+                        <button id="micBtn" class="btn-mic">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                <line x1="12" y1="19" x2="12" y2="23"></line>
+                                <line x1="8" y1="23" x2="16" y2="23"></line>
+                            </svg>
+                        </button>
+                        <button id="stopBtn" class="btn-stop" style="display: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                        </button>
+                        <button id="sendBtn" class="btn-send">Send</button>
+                    </div>
+                </div>
+                <div id="listeningStatus" class="listening-status">
+                    <span>🎙️ Listening...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="storage.js"></script>
+    <script src="./services/AIService.js"></script>
+    <script src="./services/ServiceManager.js"></script>
+    <script src="./services/QuizService.js"></script>
+    <script src="./services/EnglishTutorService.js"></script>
+    <script src="./services/AITutorService.js"></script>
+    <script src="./services/DayPlannerService.js"></script>
+    <script src="./services/DebaterService.js"></script>
+    <script src="ai.js"></script>
+
+    <script>
+        // Auto-resize textarea
+        document.getElementById('userInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>
