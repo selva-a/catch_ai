@@ -1,6 +1,4 @@
-import { AIService } from './AIService.js';
-
-export class DayPlannerService extends AIService {
+window.DayPlannerService = class extends window.AIService {
   constructor() {
     super();
     this.name = "Day Planner";
