@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,15 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Left Sidebar - History -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <button id="newChatBtn" class="btn-new-chat">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
@@ -38,7 +41,9 @@
                         <button id="servicesBtn" class="btn-services">
                             <span id="currentServiceIcon">💬</span>
                             <span id="currentServiceName">Normal Chat</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </button>
@@ -51,7 +56,7 @@
                     <div id="serviceIndicator" class="service-indicator">
                         <!-- Will be populated by JavaScript -->
                     </div>
-                    
+
                     <!-- Theme Toggle -->
                     <button id="themeToggle" class="btn-theme-toggle">🌓</button>
                 </div>
@@ -90,7 +95,9 @@
                     <textarea id="userInput" placeholder="Type your message here..." rows="1"></textarea>
                     <div class="input-buttons">
                         <button id="micBtn" class="btn-mic">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                                 <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
                                 <line x1="12" y1="19" x2="12" y2="23"></line>
@@ -98,7 +105,9 @@
                             </svg>
                         </button>
                         <button id="stopBtn" class="btn-stop" style="display: none;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
                                 <rect x="6" y="4" width="4" height="16"></rect>
                                 <rect x="14" y="4" width="4" height="16"></rect>
                             </svg>
@@ -114,6 +123,8 @@
     </div>
 
     <!-- Scripts -->
+    <script src="utils.js"></script> <!-- must go before storage.js -->
+    <script src="shared.js"></script>
     <script src="storage.js"></script>
     <script src="./services/AIService.js"></script>
     <script src="./services/ServiceManager.js"></script>
@@ -122,14 +133,15 @@
     <script src="./services/AITutorService.js"></script>
     <script src="./services/DayPlannerService.js"></script>
     <script src="./services/DebaterService.js"></script>
-    <script src="ai.js"></script>
 
+    <script src="ai.js"></script>
     <script>
         // Auto-resize textarea
-        document.getElementById('userInput').addEventListener('input', function() {
+        document.getElementById('userInput').addEventListener('input', function () {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
     </script>
 </body>
+
 </html>
