@@ -1,10 +1,22 @@
 // ai.js - Complete 750+ Line Version with All Features
 document.addEventListener('DOMContentLoaded', async () => {
-  // ======================
-  // 1. CONFIGURATION
-  // ======================
+  const waitForGlobals = () => {
+    return new Promise(resolve => {
+      const check = () => {
+        if (window.utils && window.storage && window.ServiceManager && window.AIService) {
+          resolve();
+        } else {
+          setTimeout(check, 50);
+        }
+      };
+      check();
+    });
+  };
+
+  await waitForGlobals();
+
   const CONFIG = {
-    API_KEY: "my_api_key",
+    API_KEY: "dummy_api_key",
     API_URL: "https://openrouter.ai/api/v1/chat/completions",
     MODEL: "openai/gpt-3.5-turbo",
     MAX_TOKENS: 1000,
@@ -13,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     MAX_TOKENS_ESTIMATE: 3000
   };
 
-  // Language support configuration
   const LANGUAGE_MAPPING = {
     English: { code: 'en-US', ttsCode: 'en', ttsLang: 'en-US' },
     Hindi: { code: 'hi-IN', ttsCode: 'hi', ttsLang: 'hi-IN' },
@@ -25,10 +36,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     Chinese: { code: 'zh-CN', ttsCode: 'zh-CN', ttsLang: 'zh-CN' }
   };
 
-  // ======================
-  // 2. INITIALIZATION CHECKS
-  // ======================
-  if (!window.utils || !window.storage) {
+  // 👇 Fix: attach globals
+  const storage = window.storage;
+  const utils = window.utils;
+
+  if (!utils || !storage || !window.ServiceManager) {
     console.error('Critical dependencies missing');
     const errorMsg = document.createElement('div');
     errorMsg.className = 'system-error';
@@ -37,68 +49,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // ======================
-  // 3. CORE COMPONENTS
-  // ======================
-  const serviceManager = new ServiceManager();
-  const conversationManager = new (class {
-    constructor() {
-      this.maxMessages = CONFIG.MAX_MESSAGES;
-      this.maxTokensEstimate = CONFIG.MAX_TOKENS_ESTIMATE;
-    }
-
-    estimateTokens(text) {
-      return Math.ceil(text.length / 4);
-    }
-
-    async buildOptimizedHistory() {
-      try {
-        const messages = await storage.loadChat(storage.currentSessionId);
-        let conversationHistory = messages
-          .filter(msg => msg.role === 'user' || msg.role === 'ai')
-          .map(msg => ({
-            role: msg.role === 'ai' ? 'assistant' : 'user',
-            content: msg.content
-          }));
-
-        conversationHistory = this.trimToTokenLimit(conversationHistory);
-        const systemPrompt = {
-          role: "system",
-          content: serviceManager.getActiveService().getSystemPrompt()
-        };
-
-        return [systemPrompt, ...conversationHistory];
-      } catch (err) {
-        console.error("History build error:", err);
-        return [{
-          role: "system",
-          content: "You are a helpful AI assistant."
-        }];
-      }
-    }
-
-    trimToTokenLimit(messages) {
-      let totalTokens = 0;
-      const trimmedMessages = [];
-      for (let i = messages.length - 1; i >= 0; i--) {
-        const msgTokens = this.estimateTokens(messages[i].content);
-        if (totalTokens + msgTokens > this.maxTokensEstimate) break;
-        totalTokens += msgTokens;
-        trimmedMessages.unshift(messages[i]);
-        if (trimmedMessages.length >= this.maxMessages) break;
-      }
-      return trimmedMessages;
-    }
-  })();
-
-  // ======================
-  // 4. SERVICE MANAGEMENT
-  // ======================
-  let activeService = 'normal';
+  // 👇 Fix: instantiate from global scope
+  const serviceManager = new window.ServiceManager();
 
   const registerServices = () => {
     try {
-      // Normal Chat Service
       serviceManager.registerService('normal', {
         name: "Normal Chat",
         icon: "💬",
@@ -107,22 +62,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         activate: () => utils.appendMessage("system", "💬 Normal chat activated")
       });
 
-      // Quiz Service
-      serviceManager.registerService('quiz', new QuizService());
+      serviceManager.registerService('quiz', new window.QuizService());
+      serviceManager.registerService('english-tutor', new window.EnglishTutorService());
+      serviceManager.registerService('ai-tutor', new window.AITutorService());
+      serviceManager.registerService('day-planner', new window.DayPlannerService());
+      serviceManager.registerService('debater', new window.DebaterService());
 
-      // English Tutor Service
-      serviceManager.registerService('english-tutor', new EnglishTutorService());
-
-      // AI Tutor Service
-      serviceManager.registerService('ai-tutor', new AITutorService());
-
-      // Day Planner Service
-      serviceManager.registerService('day-planner', new DayPlannerService());
-
-      // Debater Service
-      serviceManager.registerService('debater', new DebaterService());
-
-      console.log('All services registered successfully');
+      console.log('✅ All services registered');
     } catch (err) {
       console.error("Service registration failed:", err);
       utils.appendMessage("system", "⚠️ Service initialization failed");
@@ -733,6 +679,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Start the application
   initializeApp();
 });
+console.log("utils:", window.utils);
+console.log("storage:", window.storage);
 
 // Voice synthesis voices changed handler
 if ('speechSynthesis' in window) {
