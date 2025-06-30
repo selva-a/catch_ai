@@ -1,6 +1,4 @@
-import { AIService } from './AIService.js';
-
-export class EnglishTutorService extends AIService {
+window.EnglishTutorService = class extends window.AIService   {
   constructor() {
     super();
     this.name = "English Tutor";
