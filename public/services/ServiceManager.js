@@ -1,13 +1,13 @@
-import { AIService } from './AIService.js';
-
-export class ServiceManager {
+// ServiceManager.js
+// Remove import — already globally loaded
+window.ServiceManager = class {
   constructor() {
     this.services = new Map();
     this.activeService = null;
   }
 
   registerService(key, service) {
-    if (!(service instanceof AIService)) {
+    if (!(service instanceof window.AIService)) {
       throw new Error('Service must extend AIService');
     }
     this.services.set(key, service);
@@ -15,14 +15,14 @@ export class ServiceManager {
 
   async setActiveService(key) {
     if (this.activeService) {
-      await this.activeService.deactivate();
+      await this.activeService.deactivate?.();
     }
 
     const service = this.services.get(key);
     if (!service) throw new Error(`Service ${key} not found`);
 
     this.activeService = service;
-    await service.activate();
+    await service.activate?.();
     return service;
   }
 
@@ -38,4 +38,4 @@ export class ServiceManager {
       description: service.description
     }));
   }
-}
+};
