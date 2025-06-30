@@ -1,4 +1,5 @@
-export class AIService {
+window.AIService = class {
+  // Your base class logic
   constructor() {
     this.isActive = false;
     this.name = "Base Service";
@@ -18,8 +19,8 @@ export class AIService {
     return this.onDeactivate();
   }
 
-  onActivate() {}
-  onDeactivate() {}
+  onActivate() { }
+  onDeactivate() { }
 
   getSystemPrompt() {
     return "";
