@@ -1,12 +1,11 @@
-import { AIService } from './AIService.js';
+window.QuizService = class extends window.AIService {
 
-export class QuizService extends AIService {
-    constructor() {
-        super();
-        this.name = "Quiz System";
-        this.icon = "📝";
-        this.description = "Test your knowledge with interactive quizzes";
-        this.systemPrompt = `You are a 6th-grade English teacher, and your job is to quiz a child in the following areas:
+  constructor() {
+    super();
+    this.name = "Quiz System";
+    this.icon = "📝";
+    this.description = "Test your knowledge with interactive quizzes";
+    this.systemPrompt = `You are a 6th-grade English teacher, and your job is to quiz a child in the following areas:
 
 Basic Math (Multiplication & Division)
 General Knowledge (GK)
@@ -121,20 +120,20 @@ Wait for the student to respond with the corrected answer in full before continu
   The response should stop after the generation of "That's close, but not quite! Try again with the correct answer." 
   Wait for the correct answer before continuing.
 Never skip a question. Never proceed unless the current one is correctly answered.`;
-    }
+  }
 
-    async onActivate() {
-        // Start new chat session
-        document.getElementById('newChatBtn').click();
-        appendMessage("system", `${this.icon} ${this.name} activated! Ready to test your knowledge?`);
+  async onActivate() {
+    // Start new chat session
+    document.getElementById('newChatBtn').click();
+    appendMessage("system", `${this.icon} ${this.name} activated! Ready to test your knowledge?`);
 
-        // Initialize quiz
-        setTimeout(() => {
-            this.processAIResponse("start quiz");
-        }, 600);
-    }
+    // Initialize quiz
+    setTimeout(() => {
+      this.processAIResponse("start quiz");
+    }, 600);
+  }
 
-    async processAIResponse(text) {
-        // Your existing quiz processing logic
-    }
+  async processAIResponse(text) {
+    // Your existing quiz processing logic
+  }
 }
